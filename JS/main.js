@@ -1,6 +1,6 @@
 "use strict";
 let hearts, bombs, playarea, score, hidden, sprite, sound, music, world, status, main, disableMov, scene, lvl, animateBG;
-let dir, curFrame, bg, player, keyboard, fps, bulletList, enemyList, pickUpList, garbage, paused, frameset, xSpeed, ySpeed,mute;
+let dir, curFrame, bg, player, keyboard, fps, bulletList, enemyList, pickUpList, garbage, paused, frameset, xSpeed, ySpeed,mute, godmode;
 
 function init(){
 
