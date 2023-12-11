@@ -12,3 +12,6 @@ E Activates SUPER LASER
 P to Start or Pause
 
 The ship can convert bullets to points, but the princess riding on top is vulnerable. Keep her safe.
+
+Can be played here:
+https://reginaidiotarum.github.io/skywardprincess/
