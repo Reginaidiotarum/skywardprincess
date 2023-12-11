@@ -1,12 +1,15 @@
 "use strict";
+let hearts, bombs, playarea, score, hidden, sprite, sound, music, world, status, main, disableMov, scene, lvl, animateBG;
+let dir, curFrame, bg, player, keyboard, fps, bulletList, enemyList, pickUpList, garbage, paused, frameset, xSpeed, ySpeed,mute;
+
 function init(){
 
-window.hearts = document.getElementById("hearts");
-window.bombs = document.getElementById("bombs");
-var playarea = document.getElementById("playarea");
-var score = document.getElementById("score");
-window.hidden = document.getElementById("hidden");
-window.sprite = {
+hearts = document.getElementById("hearts");
+bombs = document.getElementById("bombs");
+playarea = document.getElementById("playarea");
+score = document.getElementById("score");
+hidden = document.getElementById("hidden");
+sprite = {
 	"heart": bindImg("IMG/heart.png"),
 	"bomb" : bindImg("IMG/bomb.png"),
 	"paralax": bindImg("IMG/paralax.png"),
@@ -52,7 +55,7 @@ window.sprite = {
 		"coin":bindImg("IMG/pickups/coin.png")
 	}
 }
-window.sound = {
+sound = {
 	"shoot":{
 		"pew" :	bindSound("SOUNDS/SHOOT/pew.mp3"),
 		"poit": bindSound("SOUNDS/SHOOT/poit.mp3"),
@@ -75,7 +78,7 @@ window.sound = {
 	
 }
 
-window.music = {
+music = {
 	"menu":bindSong("SOUNDS/MUSIC/track07.mp3"),
 	"track1" : bindSong("SOUNDS/MUSIC/track01.mp3"),
 	"track2" : bindSong("SOUNDS/MUSIC/track02.mp3"),
@@ -88,7 +91,7 @@ window.music = {
 	
 	
 }	
-window.world = [
+world = [
 {	"paralax": bindImg("IMG/world1/paralax.png"),
 	"skybox": bindImg("IMG/world1/skybox.png")
 },
@@ -102,28 +105,28 @@ window.world = [
 
 
 
-window.status = document.getElementById("stati");
-window.main = playarea.getContext("2d");
-window.disableMov = true;
-window.scene = 0;
-window.lvl = 1;}
+status = document.getElementById("stati");
+main = playarea.getContext("2d");
+disableMov = true;
+scene = 0;
+lvl = 1;}
 
 function menu (){
 		var _frame = 1;
 		var	skybox = bindImg("IMG/title.png");
 		var background = bindImg("IMG/title_bg.png");
-	 	window.main.drawImage( background,0,0,900,1440,0, 0,900, 1440);
-		window.main.drawImage(skybox,0,0,900,1440,0, 250,900, 1440);
+	 	main.drawImage( background,0,0,900,1440,0, 0,900, 1440);
+		main.drawImage(skybox,0,0,900,1440,0, 250,900, 1440);
 		var plus = true;
-	 window.animateBG = setInterval(function(){
+	 animateBG = window.setInterval(function(){
 		if(_frame>=3){
 			plus = false;
 		}
 		if(_frame<=0){
 			plus = true;
 		}
-		window.main.drawImage( background,0,0,900,1440,0, 0,900, 1440);
-		window.main.drawImage(skybox,(900*_frame),0,900,1440,0, 250,900, 1440);
+		main.drawImage( background,0,0,900,1440,0, 0,900, 1440);
+		main.drawImage(skybox,(900*_frame),0,900,1440,0, 250,900, 1440);
 		if(plus){
 			_frame++;
 		}else{
@@ -136,25 +139,26 @@ function menu (){
  
  
 
-	window.bombs.innerHTML = "";
+	bombs.innerHTML = "";
 stopAllMusic();
-window.music.menu.currentTime = 0;
-window.music.menu.play();
-window.dir = [];
-window.curFrame = 0;
-window.bg = "";
-window.player = "";
-window.keyboard = "";
-window.fps = "";
-window.bulletList = [];
-window.enemyList = [];
-window.pickUpList = [];
-window.score.value = "";
-window.garbage = [];
-window.paused = true;
+music.menu.currentTime = 0;
+music.menu.play();
+dir = [];
+curFrame = 0;
+bg = "";
+player = "";
+keyboard = "";
+fps = "";
+bulletList = [];
+enemyList = [];
+pickUpList = [];
+score = {};
+score.value = "";
+garbage = [];
+paused = true;
 document.getElementById("stati").innerHTML = "Press Start";
 document.getElementById("stati").blink;
-window.keyboard = keyboard_module(menuBind);
+keyboard = keyboard_module(menuBind);
 
 }
 
@@ -164,8 +168,8 @@ function attract(){
 }
 
 function stopAllMusic(){
-for(var song in window.music){
-	window.music[song].pause();
+for(var song in music){
+	music[song].pause();
 }
 }
 
@@ -176,53 +180,53 @@ document.onkeypress=function(){}
 
 
 document.getElementById("stati").innerHTML = "";
-window.dir = [];
-window.curFrame = 0;
-window.bg = new Background (main);
-window.player = new Player ();
-window.keyboard = keyboard_module(keyBind);
-window.fps = 60;
-window.bulletList = [];
-window.enemyList = [];
-window.score.value = 0;
-window.garbage = [];
-window.paused = false
+dir = [];
+curFrame = 0;
+bg = new Background (main);
+player = new Player ();
+keyboard = keyboard_module(keyBind);
+fps = 60;
+bulletList = [];
+enemyList = [];
+score.value = 0;
+garbage = [];
+paused = false
 
-clearInterval(window.frameset);
-window.frameset = window.setInterval(frame, (1000/window.fps));
+window.clearInterval(frameset);
+frameset = window.setInterval(frame, (1000/fps));
 hpUp();
 hpUp();
 hpUp();
 bombUp();
-window.disableMov = false;
-window.xSpeed = 0;
-window.ySpeed = -2;
-window.scene = 0;
-window.lvl = 1;
-window.level[window.lvl].stage[window.scene]();
+disableMov = false;
+xSpeed = 0;
+ySpeed = -2;
+scene = 0;
+lvl = 1;
+level[lvl].stage[scene]();
 }
 
 function pause(){
-if(!window.paused){
-	clearInterval(window.frameset);
+if(!paused){
+	window.clearInterval(frameset);
 	document.getElementById("stati").innerHTML = "PAUSED";
-	window.paused = true;
+	paused = true;
 	} else {
-	window.frameset = setInterval(frame,1000/window.fps);
+	frameset = window.setInterval(frame,1000/fps);
 	document.getElementById("stati").innerHTML = "";
 
 	
-	window.paused = false;
+	paused = false;
 }
 }
 
 function pauseForDialog(){
-	clearInterval(window.frameset);
-	window.frameset = setInterval(frame,1000/window.fps);
+	window.clearInterval(frameset);
+	frameset = window.setInterval(frame,1000/fps);
 	document.getElementById("stati").innerHTML = "";
 }
 function continueGame(){
-	window.frameset = setInterval(frame,1000/window.fps);
+	frameset = window.setInterval(frame,1000/fps);
 	document.getElementById("stati").innerHTML = "";
 
 	
@@ -233,7 +237,7 @@ function hpUp(){
 player.life++;
 var heart = document.createElement("IMG");
 heart.src = "IMG/heart.png";
-window.hearts.appendChild(heart);
+hearts.appendChild(heart);
 
 }
 
@@ -241,7 +245,7 @@ function bombUp(){
 	player.bombCount++;
 var bomb = document.createElement("IMG");
 bomb.src = "IMG/bomb.png";
-window.bombs.appendChild(bomb);
+bombs.appendChild(bomb);
 
 }
 function pUp(){
@@ -249,8 +253,8 @@ function pUp(){
 }
 
 function volMusic(num){
-for(var song in window.music){
-	window.music[song].volume = num;
+for(var song in music){
+	music[song].volume = num;
 	
 }
 
@@ -258,8 +262,8 @@ for(var song in window.music){
 
 
 function volSounds(num){
-for(var song in window.sound){
-	var effect = window.sound[song];
+for(var song in sound){
+	var effect = sound[song];
 	for(var sound in effect){
 		effect[sound].volume = num;
 	}			
@@ -317,7 +321,7 @@ sound.volume = document.getElementById("soundVol").value;
 
 sound.autoplay = false;
 sound.replay = function (){ // All of my sound objects need a quick function that plays them from the beginning
-	if(!window.mute){
+	if(!mute){
 		this.currentTime = 0;
 		this.play();
 	}
@@ -328,7 +332,7 @@ return sound;
 
 function menuBind(kb){
 	if(kb["P"]){
-		 clearInterval(window.animateBG);
+		 window.clearInterval(animateBG);
 	 startLvl();
 	}
 }
@@ -337,13 +341,13 @@ function menuBind(kb){
 
 
 function keyBind(kb){
-if(!window.disableMov){
-	window.dir["DOWN"] = (kb["S"])?true:false;
-	window.dir["UP"] = (kb["W"])?true:false;
-	window.dir["LEFT"] = (kb["A"])?true:false;
-	window.dir["RIGHT"] = (kb["D"])?true:false;
-	window.dir["FIRE"] = (kb[" "])?true:false;
-	window.dir["BOMB"] = (kb["E"])?true:false;
+if(!disableMov){
+	dir["DOWN"] = (kb["S"])?true:false;
+	dir["UP"] = (kb["W"])?true:false;
+	dir["LEFT"] = (kb["A"])?true:false;
+	dir["RIGHT"] = (kb["D"])?true:false;
+	dir["FIRE"] = (kb[" "])?true:false;
+	dir["BOMB"] = (kb["E"])?true:false;
 	if(kb["P"]){pause();}
 }
 }
@@ -389,7 +393,7 @@ constructor(){
 	this.moving = false;
 	this.width = 168;
 	this.speed = 10; //Pixels/Sectond;
-	this.sprite = window.sprite.player.ship;
+	this.sprite = sprite.player.ship;
 	this.frame = 0;
 	this.cdInit = 10;
 	this.damage = 5;
@@ -409,13 +413,13 @@ constructor(){
 	
 	
 	
-	window.main.drawImage(this.sprite, (this.frame*this.width), 0, this.width, this.height, this.x, this.y, this.width, this.height);
+	main.drawImage(this.sprite, (this.frame*this.width), 0, this.width, this.height, this.x, this.y, this.width, this.height);
 }
 move(dir){
 	if(this.invuln >=0){
-		this.sprite = window.sprite.player.flashing;
+		this.sprite = sprite.player.flashing;
 	} else {
-		this.sprite = window.sprite.player.ship;
+		this.sprite = sprite.player.ship;
 	}
 	
 	if(this.bomb){
@@ -436,45 +440,45 @@ move(dir){
 		this.cooldown = this.cdInit;
 	switch(this.pUp){
 		case 0:
-			window.bulletList.push(new playerBullet((this.x + this.width/2)+17, this.y-40));
-			window.bulletList.push(new playerBullet((this.x + this.width/2)-50, this.y-40));
+			bulletList.push(new playerBullet((this.x + this.width/2)+17, this.y-40));
+			bulletList.push(new playerBullet((this.x + this.width/2)-50, this.y-40));
 			break;
 		case 1:
-		window.bulletList.push(new playerBullet((this.x + this.width/2)+17, this.y-40));
-		window.bulletList.push(new playerBullet((this.x + this.width/2)-50, this.y-40));
-		window.bulletList.push(new aftBullet(this.x + this.width/2 + 36, this.y-28));
-		window.bulletList.push(new aftBullet(this.x + this.width/2 - 90, this.y -28,true));
+		bulletList.push(new playerBullet((this.x + this.width/2)+17, this.y-40));
+		bulletList.push(new playerBullet((this.x + this.width/2)-50, this.y-40));
+		bulletList.push(new aftBullet(this.x + this.width/2 + 36, this.y-28));
+		bulletList.push(new aftBullet(this.x + this.width/2 - 90, this.y -28,true));
 		break;
 		case 2:
-		window.bulletList.push(new playerBullet2((this.x + this.width/2)+17, this.y-40));
-		window.bulletList.push(new playerBullet2((this.x + this.width/2)-50, this.y-40));
-		window.bulletList.push(new aftBullet(this.x + this.width/2 + 36, this.y-28));
-		window.bulletList.push(new aftBullet(this.x + this.width/2 - 90, this.y -28,true));
+		bulletList.push(new playerBullet2((this.x + this.width/2)+17, this.y-40));
+		bulletList.push(new playerBullet2((this.x + this.width/2)-50, this.y-40));
+		bulletList.push(new aftBullet(this.x + this.width/2 + 36, this.y-28));
+		bulletList.push(new aftBullet(this.x + this.width/2 - 90, this.y -28,true));
 		break;
 		case 3:
-		window.bulletList.push(new playerBullet2((this.x + this.width/2)+17, this.y-40));
-		window.bulletList.push(new playerBullet2((this.x + this.width/2)-50, this.y-40));
-		window.bulletList.push(new aftBullet2(this.x + this.width/2 + 36, this.y-28));
-		window.bulletList.push(new aftBullet2(this.x + this.width/2 - 90, this.y -28,true));
+		bulletList.push(new playerBullet2((this.x + this.width/2)+17, this.y-40));
+		bulletList.push(new playerBullet2((this.x + this.width/2)-50, this.y-40));
+		bulletList.push(new aftBullet2(this.x + this.width/2 + 36, this.y-28));
+		bulletList.push(new aftBullet2(this.x + this.width/2 - 90, this.y -28,true));
 		break;
 		case 4:
-		window.bulletList.push(new playerBullet3((this.x + this.width/2)+17, this.y-40));
-		window.bulletList.push(new playerBullet3((this.x + this.width/2)-50, this.y-40));
-		window.bulletList.push(new aftBullet2(this.x + this.width/2 + 36, this.y-28));
-		window.bulletList.push(new aftBullet2(this.x + this.width/2 - 90, this.y -28,true));
+		bulletList.push(new playerBullet3((this.x + this.width/2)+17, this.y-40));
+		bulletList.push(new playerBullet3((this.x + this.width/2)-50, this.y-40));
+		bulletList.push(new aftBullet2(this.x + this.width/2 + 36, this.y-28));
+		bulletList.push(new aftBullet2(this.x + this.width/2 - 90, this.y -28,true));
 		break;
 		case 5:
-		window.bulletList.push(new playerBullet3((this.x + this.width/2)+17, this.y-40));
-		window.bulletList.push(new playerBullet3((this.x + this.width/2)-50, this.y-40));
-		window.bulletList.push(new aftBullet3(this.x + this.width/2 + 36, this.y-28));
-		window.bulletList.push(new aftBullet3(this.x + this.width/2 - 90, this.y -28,true));
+		bulletList.push(new playerBullet3((this.x + this.width/2)+17, this.y-40));
+		bulletList.push(new playerBullet3((this.x + this.width/2)-50, this.y-40));
+		bulletList.push(new aftBullet3(this.x + this.width/2 + 36, this.y-28));
+		bulletList.push(new aftBullet3(this.x + this.width/2 - 90, this.y -28,true));
 		break;
 			default:
-			window.bulletList.push(new playerBullet3((this.x + this.width/2)+17, this.y-40));
-			window.bulletList.push(new playerBullet3((this.x + this.width/2)-50, this.y-40));
-			window.bulletList.push(new aftBullet3(this.x + this.width/2 + 36, this.y-28));
-			window.bulletList.push(new aftBullet3(this.x + this.width/2 - 90, this.y -28,true));
-			window.score.value = +window.score.value + 1000;
+			bulletList.push(new playerBullet3((this.x + this.width/2)+17, this.y-40));
+			bulletList.push(new playerBullet3((this.x + this.width/2)-50, this.y-40));
+			bulletList.push(new aftBullet3(this.x + this.width/2 + 36, this.y-28));
+			bulletList.push(new aftBullet3(this.x + this.width/2 - 90, this.y -28,true));
+			score.value = +score.value + 1000;
 			}
 		
 	}
@@ -493,7 +497,7 @@ if(this.frame<3){this.frame++}else{this.frame=0};
 
 this.hitX=this.width/2+this.x;
 this.hitY=this.height/2+this.y;
-  window.main.drawImage(this.sprite, (this.frame*this.width), 0, this.width, this.height, this.x, this.y, this.width, this.height);
+  main.drawImage(this.sprite, (this.frame*this.width), 0, this.width, this.height, this.x, this.y, this.width, this.height);
 
 }
 
@@ -502,14 +506,14 @@ this.hitY=this.height/2+this.y;
 hit(){
 //TODO: Die;
 
-window.sound.hit.hurt.replay();
-if(!window.godmode){
+sound.hit.hurt.replay();
+if(!godmode){
 if(this.invuln <=0){
 if(this.life == 1){
 hearts.removeChild(hearts.lastChild);
-clearInterval(window.frameset);
+window.clearInterval(frameset);
 document.getElementById("stati").innerHTML = "Game Over";
-window.disableMov = "true";
+disableMov = "true";
 setTimeout(menu, 5000); 
 
 }else{
@@ -538,42 +542,42 @@ move (x, y){
 this.x += x | 0;
 this.y += y | 0;
 if(this.y <= 0){this.y = 7160;}
-window.main.drawImage(this.skybox,this.x,this.y,900,1440,0, 0,900, 1440);
-window.main.drawImage(this.paralax,this.x,this.y*1.5,900,1440,0, 0,900, 1440);
+main.drawImage(this.skybox,this.x,this.y,900,1440,0, 0,900, 1440);
+main.drawImage(this.paralax,this.x,this.y*1.5,900,1440,0, 0,900, 1440);
 }
 }
 
 
 function garbageCollection(){
-for(var gar in window.garbage){
-window.garbage[gar] = null;
+for(var gar in garbage){
+garbage[gar] = null;
 }
-window.garbage = [];
+garbage = [];
 }
 
 
 function frame(){
   
-if(window.enemyList.length == 0){
-	window.scene++;
-window.level[window.lvl].stage[window.scene]();	
+if(enemyList.length == 0){
+	scene++;
+level[lvl].stage[scene]();	
 }
 
-window.curFrame++;
+curFrame++;
 garbageCollection();
-window.bg.move(window.xSpeed,window.ySpeed);
+bg.move(xSpeed,ySpeed);
 
-window.player.move(window.dir);
-window.player.cooldown -= 1;
+player.move(dir);
+player.cooldown -= 1;
 
-for(var enemy in window.enemyList){
-window.enemyList[enemy].update();
+for(var enemy in enemyList){
+enemyList[enemy].update();
 }
-for(var bullet in window.bulletList){
-window.bulletList[bullet].update();
+for(var bullet in bulletList){
+bulletList[bullet].update();
 }
-for(var pickup in window.pickUpList){
-window.pickUpList[pickup].update();
+for(var pickup in pickUpList){
+pickUpList[pickup].update();
 }
 
 }
