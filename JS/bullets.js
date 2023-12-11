@@ -8,21 +8,21 @@ class Bullet{
 		this.width = 24;
 		this.height = 24;
 		
-		this.spriteMap = window.sprite.bullet.spinner;
+		this.spriteMap = sprite.bullet.spinner;
 		this.frame = 0;
-		window.main.drawImage(this.spriteMap, (this.width*(this.frame % 3)), 0, this.width, this.height, this.x, this.y, this.width, this.height);
+		main.drawImage(this.spriteMap, (this.width*(this.frame % 3)), 0, this.width, this.height, this.x, this.y, this.width, this.height);
 	}
 	move(){
 
-		window.main.drawImage(this.spriteMap, (this.width*(Math.floor(this.frame/4)% 3)), 0, this.width, this.height, this.x, this.y, this.width, this.height);
-		if(this.y > window.playarea.height || this.x+this.width < 0 || this.x > 900 ){
+		main.drawImage(this.spriteMap, (this.width*(Math.floor(this.frame/4)% 3)), 0, this.width, this.height, this.x, this.y, this.width, this.height);
+		if(this.y > playarea.height || this.x+this.width < 0 || this.x > 900 ){
 			this.kill();
 		}
 	}
 	kill(){
 	
-		window.garbage.push(this);
-		window.bulletList.splice(window.bulletList.indexOf(this), 1);
+		garbage.push(this);
+		bulletList.splice(bulletList.indexOf(this), 1);
 
 	}
 
@@ -33,18 +33,18 @@ class playerBullet extends Bullet{
 		super();
 		super.width = 17;
 		super.height = 56;
-		super.spriteMap = window.sprite.bullet.player0;
+		super.spriteMap = sprite.bullet.player0;
 	super.x = x+this.width/2;
 		super.y = y+this.height;
-		window.sound.shoot.pew.replay();
+		sound.shoot.pew.replay();
 		super.speed = -20;
-		this.hitDmg = window.player.damage;			
+		this.hitDmg = player.damage;			
 		}
 	damage(){
-		for(var enemy in window.enemyList){
+		for(var enemy in enemyList){
 			
-			if(hitTest(this, window.enemyList[enemy])){
-				window.enemyList[enemy].damage(this.hitDmg);
+			if(hitTest(this, enemyList[enemy])){
+				enemyList[enemy].damage(this.hitDmg);
 				this.kill();
 		
 		}
@@ -63,18 +63,18 @@ class playerBullet2 extends Bullet{
 		super();
 		super.width = 17;
 		super.height = 56;
-		super.spriteMap = window.sprite.bullet.player1;
+		super.spriteMap = sprite.bullet.player1;
 	super.x = x+this.width/2;
 		super.y = y+this.height;
-		window.sound.shoot.pew.replay();
+		sound.shoot.pew.replay();
 		super.speed = -25;
-		this.hitDmg = window.player.damage + 10;			
+		this.hitDmg = player.damage + 10;			
 		}
 	damage(){
-		for(var enemy in window.enemyList){
+		for(var enemy in enemyList){
 			
-			if(hitTest(this, window.enemyList[enemy])){
-				window.enemyList[enemy].damage(this.hitDmg);
+			if(hitTest(this, enemyList[enemy])){
+				enemyList[enemy].damage(this.hitDmg);
 				this.kill();
 		
 		}
@@ -93,18 +93,18 @@ class playerBullet3 extends Bullet{
 		super();
 		super.width = 17;
 		super.height = 56;
-		super.spriteMap = window.sprite.bullet.player2;
+		super.spriteMap = sprite.bullet.player2;
 	super.x = x+this.width/2;
 		super.y = y+this.height;
-		window.sound.shoot.pew.replay();
+		sound.shoot.pew.replay();
 		super.speed = -30;
-		this.hitDmg = window.player.damage + 25;			
+		this.hitDmg = player.damage + 25;			
 		}
 	damage(){
-		for(var enemy in window.enemyList){
+		for(var enemy in enemyList){
 			
-			if(hitTest(this, window.enemyList[enemy])){
-				window.enemyList[enemy].damage(this.hitDmg);
+			if(hitTest(this, enemyList[enemy])){
+				enemyList[enemy].damage(this.hitDmg);
 				this.kill();
 		
 		}
@@ -124,19 +124,19 @@ class aftBullet extends Bullet{
 		super();
 		super.width = 17;
 		super.height = 56;
-		super.spriteMap = window.sprite.bullet.player0;
+		super.spriteMap = sprite.bullet.player0;
 		super.x = x+this.width/2;
 		super.y = y+this.height;
 		this.dir = dir;
-		window.sound.shoot.pew.replay();
+		sound.shoot.pew.replay();
 		super.speed = -20;
-		this.hitDmg = window.player.damage;			
+		this.hitDmg = player.damage;			
 		}
 	damage(){
-		for(var enemy in window.enemyList){
+		for(var enemy in enemyList){
 			
-			if(hitTest(this, window.enemyList[enemy])){
-				window.enemyList[enemy].damage(this.hitDmg);
+			if(hitTest(this, enemyList[enemy])){
+				enemyList[enemy].damage(this.hitDmg);
 				this.kill();
 		
 		}
@@ -161,19 +161,19 @@ class aftBullet2 extends Bullet{
 		super();
 		super.width = 17;
 		super.height = 56;
-		super.spriteMap = window.sprite.bullet.player1;
+		super.spriteMap = sprite.bullet.player1;
 		super.x = x+this.width/2;
 		super.y = y+this.height;
 		this.dir = dir;
-		window.sound.shoot.pew.replay();
+		sound.shoot.pew.replay();
 		super.speed = -25;
-		this.hitDmg = window.player.damage +10;			
+		this.hitDmg = player.damage +10;			
 		}
 	damage(){
-		for(var enemy in window.enemyList){
+		for(var enemy in enemyList){
 			
-			if(hitTest(this, window.enemyList[enemy])){
-				window.enemyList[enemy].damage(this.hitDmg);
+			if(hitTest(this, enemyList[enemy])){
+				enemyList[enemy].damage(this.hitDmg);
 				this.kill();
 		
 		}
@@ -198,19 +198,19 @@ class aftBullet3 extends Bullet{
 		super();
 		super.width = 17;
 		super.height = 56;
-		super.spriteMap = window.sprite.bullet.player2;
+		super.spriteMap = sprite.bullet.player2;
 		super.x = x+this.width/2;
 		super.y = y+this.height;
 		this.dir = dir;
-		window.sound.shoot.pew.replay();
+		sound.shoot.pew.replay();
 		super.speed = -30;
-		this.hitDmg = window.player.damage +25;			
+		this.hitDmg = player.damage +25;			
 		}
 	damage(){
-		for(var enemy in window.enemyList){
+		for(var enemy in enemyList){
 			
-			if(hitTest(this, window.enemyList[enemy])){
-				window.enemyList[enemy].damage(this.hitDmg);
+			if(hitTest(this, enemyList[enemy])){
+				enemyList[enemy].damage(this.hitDmg);
 				this.kill();
 		
 		}
@@ -253,27 +253,27 @@ class playerBomb extends Bullet{
 		super();
 		super.width = 192;
 		super.height = 1500;
-		super.spriteMap = window.sprite.bullet.bomb;
-		super.x = window.player.x + window.player.width/2 - this.width/2;
-		super.y = window.player.y+20-this.height;
+		super.spriteMap = sprite.bullet.bomb;
+		super.x = player.x + player.width/2 - this.width/2;
+		super.y = player.y+20-this.height;
 		super.speed = -20;
 		this.hitDmg = 20;		
 		this.life = 60;
-		window.sound.shoot.lazer.replay();
+		sound.shoot.lazer.replay();
 		}
 	damage(){
 
-		for(var enemy in window.enemyList){
-			if(hitTest(this, window.enemyList[enemy])){
-			window.score.value =  10 + (+window.score.value);
-			window.enemyList[enemy].damage(this.hitDmg);
+		for(var enemy in enemyList){
+			if(hitTest(this, enemyList[enemy])){
+			score.value =  10 + (+score.value);
+			enemyList[enemy].damage(this.hitDmg);
 		
 			}
 		}
-		for(var enemy in window.bulletList){
-			if(hitTest(this, window.bulletList[enemy])){
-			window.score.value =  10 + (+window.score.value);
-			window.bulletList[enemy].kill();
+		for(var enemy in bulletList){
+			if(hitTest(this, bulletList[enemy])){
+			score.value =  10 + (+score.value);
+			bulletList[enemy].kill();
 			}
 		}	
 		}	
@@ -284,12 +284,12 @@ class playerBomb extends Bullet{
 	this.life--;
 	if(this.life <= 0){
 		player.bomb = "";
-		window.garbage.push(this);
+		garbage.push(this);
 		
 	}
 	
-	this.x = window.player.x + window.player.width/2 - this.width/2;
-	this.y = window.player.y+20-this.height;
+	this.x = player.x + player.width/2 - this.width/2;
+	this.y = player.y+20-this.height;
 	this.damage();
 	this.move();
 		
@@ -300,17 +300,17 @@ class playerBomb extends Bullet{
 class fighterBullet extends Bullet{
 		constructor(x,y, angle){
 			super(x,y);
-			super.spriteMap = window.sprite.bullet.fighter;
+			super.spriteMap = sprite.bullet.fighter;
 			super.frame = 1;
 			this.angle = angle;
-			window.sound.shoot.pow.replay();
+			sound.shoot.pow.replay();
 		}
 		damage(){
-			if(hitTest(this,window.player)){
-				window.score.value++;
+			if(hitTest(this,player)){
+				score.value++;
 			}
-			if(hitTest(this,window.player.hitbox)){
-				window.player.hit();
+			if(hitTest(this,player.hitbox)){
+				player.hit();
 				this.kill();
 				
 			}
@@ -335,18 +335,18 @@ class spinnerBullet extends Bullet{
 			this.xO = x;
 			this.yO = y;
 			super.width = super.height = 64;
-			super.spriteMap = window.sprite.bullet.spinner;
+			super.spriteMap = sprite.bullet.spinner;
 			super.frame = 1;
 			this.angle = angle;
 			super.speed = 20;
-			window.sound.shoot.kachow.replay();
+			sound.shoot.kachow.replay();
 		}
 		damage(){
-			if(hitTest(this,window.player)){
-				window.score.value++;
+			if(hitTest(this,player)){
+				score.value++;
 			}
-			if(hitTest(this,window.player.hitbox)){
-				window.player.hit();
+			if(hitTest(this,player.hitbox)){
+				player.hit();
 				this.kill();
 				
 			}
@@ -373,21 +373,21 @@ class sniperBullet extends Bullet{
 			this.yO = y;
 			super.width = 
 			super.height = 64;
-			super.spriteMap = window.sprite.bullet.spinner;
+			super.spriteMap = sprite.bullet.spinner;
 			super.frame = 1;
 			this.angle = angle;
 			super.speed = 2000;
-			window.sound.shoot.kachow.replay();
+			sound.shoot.kachow.replay();
 			this.life = 2000;
 			
 			
 		}
 		damage(){
-			if(hitTest(this,window.player)){
-				window.score.value++;
+			if(hitTest(this,player)){
+				score.value++;
 			}
-			if(hitTest(this,window.player.hitbox)){
-				window.player.hit();
+			if(hitTest(this,player.hitbox)){
+				player.hit();
 				this.kill();
 				
 			}
@@ -414,18 +414,18 @@ class tracerBullet extends Bullet{
 			this.xO = x;
 			this.yO = y;
 			super.width = super.height = 32;
-			super.spriteMap = window.sprite.bullet.tracer;
+			super.spriteMap = sprite.bullet.tracer;
 			super.frame = 1;
 			this.angle = angle;
-			window.sound.shoot.zoop.replay();
+			sound.shoot.zoop.replay();
 			this.radius = .5;
 		}
 		damage(){
-			if(hitTest(this,window.player)){
-				window.score.value++;
+			if(hitTest(this,player)){
+				score.value++;
 			}
-			if(hitTest(this,window.player.hitbox)){
-				window.player.hit();
+			if(hitTest(this,player.hitbox)){
+				player.hit();
 				this.kill();
 				
 			}
@@ -455,18 +455,18 @@ class antiTracerBullet extends Bullet{
 			this.xO = x;
 			this.yO = y;
 			super.width = super.height = 32;
-			super.spriteMap = window.sprite.bullet.tracer;
+			super.spriteMap = sprite.bullet.tracer;
 			super.frame = 1;
 			this.angle = angle;
-			window.sound.shoot.zoop.replay();
+			sound.shoot.zoop.replay();
 			this.radius = .5;
 		}
 		damage(){
-			if(hitTest(this,window.player)){
-				window.score.value++;
+			if(hitTest(this,player)){
+				score.value++;
 			}
-			if(hitTest(this,window.player.hitbox)){
-				window.player.hit();
+			if(hitTest(this,player.hitbox)){
+				player.hit();
 				this.kill();
 				
 			}

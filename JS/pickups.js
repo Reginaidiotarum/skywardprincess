@@ -9,21 +9,21 @@ class pickUp{
 		this.frame = 0;
 		this.curFrame = 0;
 		this.BulletSize = 5;
-		this.spriteMap = window.sprite.pickup.bomb;
-		window.main.drawImage(this.spriteMap, (((this.frame) % 4)*this.width), 0, this.width, this.height, this.x, this.y, this.width, this.height);
+		this.spriteMap = sprite.pickup.bomb;
+		main.drawImage(this.spriteMap, (((this.frame) % 4)*this.width), 0, this.width, this.height, this.x, this.y, this.width, this.height);
 		
 	}
 	kill(){
 
 		this.spriteMap = null;
-		window.garbage.push(this);
-		window.pickUpList.splice(window.pickUpList.indexOf(this), 1);
+		garbage.push(this);
+		pickUpList.splice(pickUpList.indexOf(this), 1);
 	}
 	move(){
 		this.frame++;
 		this.y+=3;
-		window.main.drawImage(this.spriteMap, ((Math.floor(this.frame/4) % 4) * this.width), 0, this.width, this.height, this.x, this.y, this.width, this.height);
-		if(this.x > (window.playarea.width + 50) || this.x < -50 || this.y > window.playarea.height){
+		main.drawImage(this.spriteMap, ((Math.floor(this.frame/4) % 4) * this.width), 0, this.width, this.height, this.x, this.y, this.width, this.height);
+		if(this.x > (playarea.width + 50) || this.x < -50 || this.y > playarea.height){
 				this.kill();
 		}
 	}
@@ -38,12 +38,12 @@ class pickUp{
 class bombPU extends pickUp{
 	constructor(x,y){
 			super(x,y);	
-			//this.spriteMap = window.sprite.pickup.bomb;
+			//this.spriteMap = sprite.pickup.bomb;
 			
 	}
 	update(){
-		if(hitTest(this, window.player)){
-				window.sound.pickup.bomb.replay();
+		if(hitTest(this, player)){
+				sound.pickup.bomb.replay();
 				bombUp();
 				this.kill();
 		
@@ -55,12 +55,12 @@ class bombPU extends pickUp{
 class health extends pickUp{
 	constructor(x,y){
 			super(x,y);	
-			this.spriteMap = window.sprite.pickup.life;
+			this.spriteMap = sprite.pickup.life;
 			
 	}
 	update(){
-		if(hitTest(this, window.player)){
-						window.sound.pickup.life.replay();
+		if(hitTest(this, player)){
+						sound.pickup.life.replay();
 				hpUp()
 				this.kill();
 		
@@ -71,12 +71,12 @@ class health extends pickUp{
 class powerUp extends pickUp{
 	constructor(x,y){
 			super(x,y);	
-			this.spriteMap = window.sprite.pickup.power;
+			this.spriteMap = sprite.pickup.power;
 			
 	}
 	update(){
-		if(hitTest(this, window.player)){
-						window.sound.pickup.power.replay();
+		if(hitTest(this, player)){
+						sound.pickup.power.replay();
 				pUp()
 				this.kill();
 		
@@ -88,13 +88,13 @@ class powerUp extends pickUp{
 class coin extends pickUp{
 	constructor(x,y){
 			super(x,y);	
-			this.spriteMap = window.sprite.pickup.coin;
+			this.spriteMap = sprite.pickup.coin;
 			
 	}
 	update(){
-		if(hitTest(this, window.player)){
-						window.sound.pickup.coin.replay();
-			window.score.value = +window.score.value + 1000;	
+		if(hitTest(this, player)){
+						sound.pickup.coin.replay();
+			score.value = +score.value + 1000;	
 				this.kill();
 		
 		}
@@ -106,16 +106,16 @@ function randPU(x,y){
 
 	switch(Math.floor(Math.random() * (4))){
 		case 1:
-		window.pickUpList.push(new powerUp(x,y));
+		pickUpList.push(new powerUp(x,y));
 		break;
 		case 2:
-		window.pickUpList.push(new health(x,y));
+		pickUpList.push(new health(x,y));
 		break;
 		case 0:
-		window.pickUpList.push(new bombPU(x,y));
+		pickUpList.push(new bombPU(x,y));
 		break;
 		case 3:
-		window.pickUpList.push(new coin(x,y));
+		pickUpList.push(new coin(x,y));
 		break;
 	}
 
