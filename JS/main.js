@@ -215,7 +215,7 @@ if(!paused){
 	frameset = window.setInterval(frame,1000/fps);
 	document.getElementById("stati").innerHTML = "";
 
-	
+	disableMov = true;
 	paused = false;
 }
 }
@@ -348,8 +348,9 @@ if(!disableMov){
 	dir["RIGHT"] = (kb["D"])?true:false;
 	dir["FIRE"] = (kb[" "])?true:false;
 	dir["BOMB"] = (kb["E"])?true:false;
-	if(kb["P"]){pause();}
 }
+	if(kb["P"]){pause();}
+
 }
 
 function keyboard_module(onUpdate){
